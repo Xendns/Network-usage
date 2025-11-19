@@ -13,7 +13,7 @@
 ## Preview
 ![Network Usage Preview](https://forum.pynoxi.com/assets/files/2025-10-08/1759945097-693439-image.png)
 
-**Network-Usage** is a lightweight, terminal-based network monitor for Linux VPS, powered by PyNoxi.  
+**Network-Usage** is a lightweight, terminal-based network monitor for Linux VPS, powered by XenDns.  
 It displays **real-time download/upload speeds**, **total data usage** in GB, and provides a **stylish live dashboard** with zero flicker.
 
 ---
@@ -52,7 +52,7 @@ It displays **real-time download/upload speeds**, **total data usage** in GB, an
 You can run the script directly without downloading or cloning the repo:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/pynoxi/Network-Usage/refs/heads/main/Network-Usage)
+bash <(curl -s https://raw.githubusercontent.com/xendns/Network-Usage/refs/heads/main/Network-Usage)
 ```
 This will fetch and run the latest version from the GitHub repository automatically.
 
@@ -60,7 +60,7 @@ This will fetch and run the latest version from the GitHub repository automatica
 ### Method 2: Git clone (manual installation)
 #### 1. Clone the repository
 ```bash
-git clone https://github.com/pynoxi/Network-Usage.git && cd Network-Usage
+git clone https://github.com/xendns/Network-Usage.git && cd Network-Usage
 ```
 #### 2. Make the script executable
 ```bash
@@ -74,7 +74,7 @@ bash Network-Usage
 
 ## 🚀 Usage
 - Press `Ctrl+C` to stop monitoring.
-- Script automatically detects the active network interface If none found, it shows a friendly error message with a link to [PyNoxi Forum](https://forum.pynoxi.com "PyNoxi Forum")
+- Script automatically detects the active network interface If none found, it shows a friendly error message with a link to [PyNoxi Forum](https://forum.Xendns.com "XenDns Forum")
 
 ## 💡 Manual Steps
 - Ensure Bash is installed (`bash --version`)
@@ -84,12 +84,12 @@ bash Network-Usage
 
 ## 📜 License
 - MIT License © 2025 PyNoxi
-- See [LICENSE](https://github.com/pynoxi/Network-Usage/blob/main/LICENSE "LICENSE") for details.
+- See [LICENSE](https://github.com/xendns/Network-Usage/blob/main/LICENSE "LICENSE") for details.
 
 ## 🔗 Links
 
-Website: [https://pynoxi.com](https://pynoxi.com "https://pynoxi.com")
+Website: [https://pynoxi.com](https://xendns.com "https://pynoxi.com")
 
-Forum: [https://forum.pynoxi.com](https://forum.pynoxi.com "https://forum.pynoxi.com")
+Forum: [https://forum.xendns.com](https://forum.xendns.com "https://forum.xendns.com")
 
-GitHub Repo: [Network-Usage](https://github.com/pynoxi/Network-Usage "Network-Usage")
+GitHub Repo: [Network-Usage](https://github.com/xendns/Network-Usage "Network-Usage")
