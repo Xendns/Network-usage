@@ -88,7 +88,7 @@ bash Network-Usage
 
 ## 🔗 Links
 
-Website: [https://pynoxi.com](https://xendns.com "https://pynoxi.com")
+Website: [https://xendns.com](https://xendns.com "https://pynoxi.com")
 
 Forum: [https://forum.xendns.com](https://forum.xendns.com "https://forum.xendns.com")
 
