@@ -1,7 +1,7 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# 🌐 PyNoxi Network Monitor v1.0
-# Author: PyNoxi Dev Team
+# 🌐 XenDns Network Monitor v1.0
+# Author: XenDns Dev Team
 # Website: https://xendns.com
 # Forum: https://xendns.com
 # ──────────────────────────────────────────────
@@ -34,7 +34,7 @@ detect_interface() {
         echo "╠════════════════════════════════════════════════════════╣"
         echo -e "║ ${YELLOW}No active internet connection detected on your server.${RED}"
         echo -e "║ ${CYAN}Please verify your VPS network settings.${RED}"
-        echo -e "║ ${GREEN}Need help? Visit: ${MAGENTA}https://forum.pynoxi.com${RED}"
+        echo -e "║ ${GREEN}Need help? Visit: ${MAGENTA}https://Xendns.com${RED}"
         echo "╚════════════════════════════════════════════════════════╝"
         echo -e "${RESET}"
         tput cnorm
@@ -64,7 +64,7 @@ get_bytes() {
 detect_interface
 clear
 
-echo -e "${MAGENTA}🌐 Network Monitor - Live Dashboard by @PyNoxi"
+echo -e "${MAGENTA}🌐 Network Monitor - Live Dashboard by @Xendns"
 echo
 echo -e "${RESET}${BOLD}Starting Network Monitor..."
 echo
@@ -111,7 +111,7 @@ while true; do
     echo -e "${CLEAR_LINE}${BOLD}${CYAN}↑ Total Upload  ${RESET}: ${YELLOW}${TX_GB} GB${RESET}"
     echo -e "${CLEAR_LINE}${BOLD}${CYAN}Σ Total Used    ${RESET}: ${MAGENTA}${TOTAL_GB} GB${RESET}"
     echo
-    echo -e "${CLEAR_LINE}${BOLD}${MAGENTA}Powered by PyNoxi ⚡ | https://pynoxi.com | https://forum.pynoxi.com${RESET}"
+    echo -e "${CLEAR_LINE}${BOLD}${MAGENTA}Powered by XenDns ⚡ | https://xendns.com | https://xendns.com${RESET}"
     echo
     echo
     echo -e "${GREEN}Monitoring Activated... Press ${RED}CTRL+C${GREEN} to stop.${RESET}"
