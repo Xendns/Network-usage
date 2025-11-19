@@ -1,0 +1,121 @@
+#!/bin/bash
+# ──────────────────────────────────────────────
+# 🌐 PyNoxi Network Monitor v1.0
+# Author: PyNoxi Dev Team
+# Website: https://xendns.com
+# Forum: https://xendns.com
+# ──────────────────────────────────────────────
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+MAGENTA='\033[1;35m'
+BOLD='\033[1m'
+RESET='\033[0m'
+CLEAR_LINE='\033[K'
+
+# Hide cursor for cleaner display
+tput civis
+
+# ──────────────────────────────────────────────
+# Function: Detect Network Interface
+# ──────────────────────────────────────────────
+detect_interface() {
+    IFACE=$(ip route get 1.1.1.1 2>/dev/null | awk '{print $5; exit}')
+    if [[ -z "$IFACE" ]]; then
+        IFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -v '^lo$' | head -n 1)
+    fi
+    if [[ -z "$IFACE" ]]; then
+        echo -e "${BOLD}${RED}"
+        echo "╔════════════════════════════════════════════════════════╗"
+        echo "║              🚫  No Network Interface Found!            ║"
+        echo "╠════════════════════════════════════════════════════════╣"
+        echo -e "║ ${YELLOW}No active internet connection detected on your server.${RED}"
+        echo -e "║ ${CYAN}Please verify your VPS network settings.${RED}"
+        echo -e "║ ${GREEN}Need help? Visit: ${MAGENTA}https://forum.pynoxi.com${RED}"
+        echo "╚════════════════════════════════════════════════════════╝"
+        echo -e "${RESET}"
+        tput cnorm
+        exit 1
+    fi
+}
+
+# ──────────────────────────────────────────────
+# Function: Convert Bytes → GB
+# ──────────────────────────────────────────────
+convert_bytes() {
+    echo "scale=2; $1 / 1024 / 1024 / 1024" | bc
+}
+
+# ──────────────────────────────────────────────
+# Function: Read RX/TX
+# ──────────────────────────────────────────────
+get_bytes() {
+    RX=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
+    TX=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
+    echo "$RX $TX"
+}
+
+# ──────────────────────────────────────────────
+# Start
+# ──────────────────────────────────────────────
+detect_interface
+clear
+
+echo -e "${MAGENTA}🌐 Network Monitor - Live Dashboard by @PyNoxi"
+echo
+echo -e "${RESET}${BOLD}Starting Network Monitor..."
+echo
+echo -e "${CYAN}Interface:${RESET} ${YELLOW}${IFACE}${RESET}"
+echo -e "${CYAN}Start Time:${RESET} ${YELLOW}$(date '+%Y-%m-%d %H:%M:%S')${RESET}"
+echo
+echo -e "${GREEN}Monitoring network traffic... Press ${RED}CTRL+C${GREEN} to stop.${RESET}"
+echo
+
+# Initial read
+read RX1 TX1 < <(get_bytes)
+
+# Remember where to print stats
+START_LINE=$(($(tput lines) - 10))
+
+# ──────────────────────────────────────────────
+# Main Loop (No Flicker)
+# ──────────────────────────────────────────────
+while true; do
+    sleep 1
+    read RX2 TX2 < <(get_bytes)
+
+    RXBPS=$((RX2 - RX1))
+    TXBPS=$((TX2 - TX1))
+    RX1=$RX2
+    TX1=$TX2
+
+    RX_MBPS=$(echo "scale=2; $RXBPS / 1024 / 1024" | bc)
+    TX_MBPS=$(echo "scale=2; $TXBPS / 1024 / 1024" | bc)
+    RX_GB=$(convert_bytes "$RX2")
+    TX_GB=$(convert_bytes "$TX2")
+    TOTAL_GB=$(echo "scale=2; $RX_GB + $TX_GB" | bc)
+
+    # Move cursor up to overwrite same lines (no flicker)
+    tput cuu 15
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}Interface:${RESET} ${YELLOW}${IFACE}${RESET}"
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}Time:${RESET} $(date '+%H:%M:%S')"
+    echo -e "${CLEAR_LINE}${BOLD}${YELLOW}───────────────${RESET}"
+    echo
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}↓ Download Speed${RESET} : ${GREEN}${RX_MBPS} MB/s${RESET}"
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}↑ Upload Speed  ${RESET} : ${GREEN}${TX_MBPS} MB/s${RESET}"
+    echo
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}↓ Total Download${RESET}: ${YELLOW}${RX_GB} GB${RESET}"
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}↑ Total Upload  ${RESET}: ${YELLOW}${TX_GB} GB${RESET}"
+    echo -e "${CLEAR_LINE}${BOLD}${CYAN}Σ Total Used    ${RESET}: ${MAGENTA}${TOTAL_GB} GB${RESET}"
+    echo
+    echo -e "${CLEAR_LINE}${BOLD}${MAGENTA}Powered by PyNoxi ⚡ | https://pynoxi.com | https://forum.pynoxi.com${RESET}"
+    echo
+    echo
+    echo -e "${GREEN}Monitoring Activated... Press ${RED}CTRL+C${GREEN} to stop.${RESET}"
+done
+
+# Show cursor again on exit
+trap "tput cnorm; echo; echo -e '${RED}Exiting PyNoxi Monitor...${RESET}'" EXIT
